@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -51,7 +52,11 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <TooltipProvider>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

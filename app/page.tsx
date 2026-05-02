@@ -18,16 +18,16 @@ export default function Page() {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2 w-fit rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-md">
               <StoreIcon className="size-4" />
-              KOBİ’ler için akıllı stok takibi
+              Stock Tracking System for SMEs
             </div>
 
             <p className="text-4xl font-bold text-white">
-              Envanter Yönetim Sistemi
+              Inventory Management System
             </p>
 
             <p className="text-gray-300 text-lg font-light max-w-[70%]">
-              Ürünlerinizi, stok seviyelerinizi ve envanter hareketlerinizi tek bir panelden yönetin.
-              Düşük stok uyarıları ve kârlılık analizleriyle işletmenizin karar süreçlerini güçlendirin.
+              Manage your products, stock levels and inventory movements in one panel.
+              Improve your decision-making process with low stock alerts and profitability analysis.
             </p>
           </div>
 
@@ -37,9 +37,9 @@ export default function Page() {
                 <RadioIcon className="size-5 text-primary-foreground" />
               </div>
 
-              <p className="text-white font-semibold">Gerçek Zamanlı Takip</p>
+              <p className="text-white font-semibold">Real-Time Tracking</p>
               <p className="text-gray-300 text-sm mt-1 leading-relaxed">
-                Stok giriş ve çıkışlarını anlık olarak izleyin.
+                Track stock in and out in real-time.
               </p>
             </div>
 
@@ -48,9 +48,9 @@ export default function Page() {
                 <CircleAlertIcon className="size-5 text-primary-foreground" />
               </div>
 
-              <p className="text-white font-semibold">Düşük Stok Uyarıları</p>
+              <p className="text-white font-semibold">Low Stock Alerts</p>
               <p className="text-gray-300 text-sm mt-1 leading-relaxed">
-                Kritik seviyeye düşen ürünleri hızlıca fark edin.
+                Quickly identify products that are running low on stock.
               </p>
             </div>
 
@@ -59,9 +59,9 @@ export default function Page() {
                 <HandCoinsIcon className="size-5 text-primary-foreground" />
               </div>
 
-              <p className="text-white font-semibold">Kârlılık Analizi</p>
+              <p className="text-white font-semibold">Profitability Analysis</p>
               <p className="text-gray-300 text-sm mt-1 leading-relaxed">
-                Maliyet ve satış fiyatına göre ürün performansını görün.
+                View product performance based on cost and sales price.
               </p>
             </div>
 
@@ -70,9 +70,9 @@ export default function Page() {
                 <ShieldUserIcon className="size-5 text-primary-foreground" />
               </div>
 
-              <p className="text-white font-semibold">Güvenli Erişim</p>
+              <p className="text-white font-semibold">Secure Access</p>
               <p className="text-gray-300 text-sm mt-1 leading-relaxed">
-                Rol bazlı yetkilendirme ile sistemi kontrollü kullanın.
+                Use the system with controlled access based on roles.
               </p>
             </div>
           </div>
@@ -87,22 +87,22 @@ export default function Page() {
             </div>
 
             <h1 className="text-3xl font-bold tracking-tight">
-              Hoş geldiniz
+              Welcome
             </h1>
 
             <p className="mt-2 text-muted-foreground">
-              Envanter paneline erişmek için giriş bilgilerinizi giriniz.
+              Enter your login information to access the inventory panel.
             </p>
           </div>
 
           <form className="flex flex-col gap-5">
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="username">Kullanıcı Adı</FieldLabel>
+                <FieldLabel htmlFor="username">Username</FieldLabel>
                 <Input
                   id="username"
                   type="text"
-                  placeholder="Kullanıcı Adı..."
+                  placeholder="Username..."
                   autoComplete="username"
                   className="h-11 bg-muted/40"
                 />
@@ -110,7 +110,7 @@ export default function Page() {
 
               <Field>
                 <div className="flex items-center justify-between">
-                  <FieldLabel htmlFor="password">Şifre</FieldLabel>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
                 </div>
 
                 <Input
@@ -124,7 +124,7 @@ export default function Page() {
             </FieldGroup>
 
             <Button type="submit" className="h-11 w-full hover:brightness-125">
-              Giriş Yap
+              Login
             </Button>
           </form>
         </div>
