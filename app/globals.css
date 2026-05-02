@@ -130,3 +130,10 @@
     @apply font-sans;
     }
 }
+
+.main-background {
+  background: url('/assets/images/main_background.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
