@@ -5,6 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
+import { AuthProvider } from "@/components/auth-provider";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -51,12 +53,13 @@ export default function RootLayout({
         fontMono.variable
       )}
     >
-      <body>
+      <body suppressHydrationWarning>
         <TooltipProvider>
           <ThemeProvider>
-            {children}
+            <AuthProvider>{children}</AuthProvider>
           </ThemeProvider>
         </TooltipProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

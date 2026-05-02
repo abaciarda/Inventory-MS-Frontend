@@ -3,13 +3,14 @@ import { Input } from "@/components/ui/input";
 import { CircleAlertIcon, HandCoinsIcon, RadioIcon, ShieldUserIcon, StoreIcon } from "lucide-react";
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
 import { Metadata } from "next";
+import { LoginForm } from "./components/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log In",
   description: "Sign in securely with your username and password to access the IMS panel.",
 };
 
-export default function Page() {
+export default function DashboardPage() {
   return (
     <div className="grid grid-cols-12 min-h-svh">
       <div className="col-span-12 lg:col-span-7 main-background hidden lg:flex flex-col justify-center items-start p-8">
@@ -94,38 +95,7 @@ export default function Page() {
             </p>
           </div>
 
-          <form className="flex flex-col gap-5">
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="username">Username</FieldLabel>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="Username..."
-                  autoComplete="username"
-                  className="h-11 bg-muted/40"
-                />
-              </Field>
-
-              <Field>
-                <div className="flex items-center justify-between">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                </div>
-
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  className="h-11 bg-muted/40"
-                />
-              </Field>
-            </FieldGroup>
-
-            <Button type="submit" className="h-11 w-full hover:brightness-125">
-              Login
-            </Button>
-          </form>
+          <LoginForm />
         </div>
       </div>
     </div>

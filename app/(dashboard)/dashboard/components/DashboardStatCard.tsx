@@ -1,4 +1,4 @@
-import { DashboardStatCardProps } from "@/app/types/dashboard.types";
+import { DashboardStatCardProps } from "@/types/app.types";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { ArrowUpRightIcon } from "lucide-react";
 

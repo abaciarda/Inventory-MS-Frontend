@@ -16,6 +16,7 @@ export type AppNavItem = {
   title: string
   href: string
   icon: LucideIcon
+  isAdmin?: boolean
 }
 
 export type AppNavSection = {
@@ -90,11 +91,13 @@ export const appNavSections: AppNavSection[] = [
         title: "Reports",
         href: "/analytics/reports",
         icon: FileBarChartIcon,
+        isAdmin: true
       },
       {
         title: "Profitability",
         href: "/analytics/profitability",
         icon: TrendingUpIcon,
+        isAdmin: true
       },
     ],
   },
@@ -105,6 +108,7 @@ export const appNavSections: AppNavSection[] = [
         title: "Users",
         href: "/users",
         icon: UsersIcon,
+        isAdmin: true,
       },
     ],
   },

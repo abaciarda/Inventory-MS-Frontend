@@ -20,24 +20,43 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { ChevronsUpDownIcon, LogOutIcon } from "lucide-react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { useAuth } from "@/components/auth-provider"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    role: string
-    avatar: string
-  }
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar()
-  const initials = user.name
+  const { user, isLoading, logout } = useAuth()
+  const router = useRouter();
+
+  const displayName = user?.username ?? "User"
+  const displayRole = user?.role ?? ""
+  const displayAvatar = ""
+
+  const initials = displayName
     .split(" ")
-    .map((n) => n[0])
+    .map((n: string) => n[0])
     .join("")
     .slice(0, 2)
     .toUpperCase()
+
+  const handleLogOut = async () => {
+    try {
+      await logout()
+      toast.success("Logout successful.")
+      router.push('/');
+    } catch {
+      toast.error("Failed to connect to the API")
+    }
+  }
+
+  if (isLoading) {
+    return null
+  }
+
+  if (!user) {
+    return null
+  }
 
   return (
     <SidebarMenu>
@@ -49,14 +68,14 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={displayAvatar} alt={displayName} />
                 <AvatarFallback className="rounded-lg">
                   {initials || "?"}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.role}</span>
+                <span className="truncate font-medium capitalize">{displayName}</span>
+                <span className="truncate text-xs">{displayRole}</span>
               </div>
               <ChevronsUpDownIcon className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -70,23 +89,23 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={displayAvatar} alt={displayName} />
                   <AvatarFallback className="rounded-lg">
                     {initials || "?"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.role}</span>
+                  <span className="truncate font-medium capitalize">{displayName}</span>
+                  <span className="truncate text-xs">{displayRole}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/" className="cursor-pointer">
+              <div onClick={ () => handleLogOut() } className="cursor-pointer">
                 <LogOutIcon />
                 Logout
-              </Link>
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

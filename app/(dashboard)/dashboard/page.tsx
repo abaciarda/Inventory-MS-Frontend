@@ -4,13 +4,14 @@ import { RecentStockMovements } from "./components/RecentStockMovements";
 import { LowStockAlerts } from "./components/LowStockAlerts";
 import { InventorySnapshotChart } from "./components/InventorySnapshotChart";
 import { Metadata } from "next";
+import { getServerSession } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "View inventory statistics, stock movements, low stock alerts, and product distribution from the dashboard."
 }
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <div>
