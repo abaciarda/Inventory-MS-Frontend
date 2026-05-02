@@ -18,20 +18,20 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Envanter Yönetim Sistemi",
-    template: "%s | Envanter Yönetim Sistemi",
+    default: "Inventory Management System",
+    template: "%s | Inventory Management System",
   },
   icons: {
     icon: "/favicon.ico",
   },
   description:
-    "KOBİ'ler için geliştirilen modern envanter yönetim sistemi. Ürün, stok hareketi, düşük stok uyarısı ve kârlılık analizlerini tek panelden yönetin.",
+    "A modern inventory management system developed for SMEs. Manage products, stock movements, low stock alerts, and profitability analysis from a single dashboard.",
   keywords: [
-    "envanter yönetim sistemi",
-    "stok takip sistemi",
     "inventory management system",
+    "stock tracking system",
+    "inventory management",
     "stock tracking",
-    "KOBİ",
+    "SME",
   ],
   applicationName: "InventoryMS",
 };

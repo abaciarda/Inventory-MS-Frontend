@@ -5,9 +5,8 @@ import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "EYS - Giriş",
-  description:
-    "EYS paneline erişmek için kullanıcı adı ve şifrenizle güvenli giriş yapın.",
+  title: "Log In",
+  description: "Sign in securely with your username and password to access the IMS panel.",
 };
 
 export default function Page() {

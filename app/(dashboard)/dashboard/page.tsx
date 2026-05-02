@@ -3,10 +3,22 @@ import { DashboardStatCard } from "./components/DashboardStatCard";
 import { RecentStockMovements } from "./components/RecentStockMovements";
 import { LowStockAlerts } from "./components/LowStockAlerts";
 import { InventorySnapshotChart } from "./components/InventorySnapshotChart";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "View inventory statistics, stock movements, low stock alerts, and product distribution from the dashboard."
+}
 
 export default function Page() {
   return (
     <>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Monitor your inventory status, stock movements, and critical alerts.
+        </p>
+      </div>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 min-w-0">
         <DashboardStatCard
           title="Total Products"
