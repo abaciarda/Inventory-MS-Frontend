@@ -4,13 +4,19 @@ import { CircleAlertIcon, HandCoinsIcon, RadioIcon, ShieldUserIcon, StoreIcon } 
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
 import { Metadata } from "next";
 import { LoginForm } from "./components/LoginForm";
+import { getServerSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Log In",
   description: "Sign in securely with your username and password to access the IMS panel.",
 };
 
-export default function DashboardPage() {
+export default async function LoginPage() {
+  const user = await getServerSession()
+  if (user) {
+    redirect("/dashboard")
+  }
   return (
     <div className="grid grid-cols-12 min-h-svh">
       <div className="col-span-12 lg:col-span-7 main-background hidden lg:flex flex-col justify-center items-start p-8">

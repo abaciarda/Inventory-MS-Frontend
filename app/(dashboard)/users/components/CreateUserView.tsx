@@ -1,0 +1,132 @@
+'use client'
+import { CreateUserFormValues, createUserSchema, LoginFormValues, loginSchema } from "@/app/schemas/auth.schema";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { SelectTrigger, SelectValue, SelectContent, SelectItem, Select } from "@/components/ui/select";
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { createUserAction } from "@/lib/actions";
+import { env } from "@/lib/env";
+import { UserResponse } from "@/types/app.types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+export function CreateUserView() {
+    const router = useRouter();
+    const [editing, setEditing] = useState<boolean>(false);
+
+    const form = useForm<CreateUserFormValues>({
+        resolver: zodResolver(createUserSchema),
+        defaultValues: {
+            username: "",
+            password: "",
+            role: "SME_STAFF"
+        },
+    });
+
+    async function onSubmit(values: CreateUserFormValues) {
+        const result = await createUserAction(values)
+        if(result.ok) {
+            toast.success("User created.");
+            setEditing(false);
+            router.refresh();
+        } else {
+            toast.error("User creation failed", { description: result.message })
+        }
+    }
+
+    return (
+        <>
+            <Button onClick={() => setEditing(true) }>
+                Add User
+            </Button>
+
+            <Sheet open={editing} onOpenChange={(open) => setEditing(open)}>
+                <SheetContent side="right" className="sm:max-w-md">
+                    <SheetHeader>
+                        <SheetTitle>
+                            Create User
+                        </SheetTitle>
+                        <SheetDescription>
+                            Create a User with username, password and role.
+                        </SheetDescription>
+                    </SheetHeader>
+
+                    <div className="flex flex-col gap-3 px-4">
+                        <form onSubmit={ form.handleSubmit(onSubmit) } className="flex flex-col gap-5">
+                            <Field>
+                                <FieldLabel htmlFor="username">Username</FieldLabel>
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    placeholder="Username..."
+                                    autoComplete="username"
+                                    className="h-11 bg-muted/40"
+                                    {...form.register("username")}
+                                />
+                                { form.formState.errors.username && (
+                                    <FieldError>
+                                        { form.formState.errors.username.message }
+                                    </FieldError>
+                                )}
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="password">Password</FieldLabel>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    placeholder="Password..."
+                                    autoComplete="password"
+                                    className="h-11 bg-muted/40"
+                                    {...form.register("password")}
+                                />
+
+                                {form.formState.errors.password && (
+                                    <FieldError>
+                                        {form.formState.errors.password.message}
+                                    </FieldError>
+                                )}
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="role">Role</FieldLabel>
+                                <Select {...form.register("role")}>
+                                    <SelectTrigger id="edit-role" className="w-full">
+                                        <SelectValue placeholder="Select role" />
+                                    </SelectTrigger>
+                                    <SelectContent position={"popper"}>
+                                        <SelectItem value="SME_OWNER">SME_OWNER</SelectItem>
+                                        <SelectItem value="SME_STAFF">SME_STAFF</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {form.formState.errors.role && (
+                                    <FieldError>
+                                        {form.formState.errors.role.message}
+                                    </FieldError>
+                                )}
+                            </Field>
+                                                    
+                        <SheetFooter className="mt-auto flex-row justify-end gap-2 sm:justify-end w-full">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled={form.formState.isSubmitting}
+                                onClick={() => setEditing(false)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button type="submit" disabled={form.formState.isSubmitting}>
+                                {form.formState.isSubmitting ? "Creating..." : "Create"}
+                            </Button>
+                        </SheetFooter>
+                        </form>
+                    </div>
+                </SheetContent>
+            </Sheet>
+        </>
+    )
+}

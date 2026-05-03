@@ -20,3 +20,10 @@ export type UserResponse = {
   role: "SME_OWNER" | "SME_STAFF"
   createdAt: string
 }
+
+export type UserRequest = {
+  username: string
+  role: UserResponse["role"]
+}
+
+export type UserActionResult = | { ok: true; user: UserResponse } | { ok: false; message: string }

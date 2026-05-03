@@ -31,6 +31,11 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Metadata } from "next";
+import { api } from "@/lib/api";
+import { UsersTable } from "./components/UsersTable";
+import { CreateUserView } from "./components/CreateUserView";
+import { getServerSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Users",
@@ -38,53 +43,29 @@ export const metadata: Metadata = {
       "View and manage registered users, roles, and account permissions in the inventory management system.",
 };
 
-const users = [
-    {
-        id: 1,
-        username: "Arda Abacı",
-        role: "SME Owner",
-        status: "Active",
-        createdAt: "27.04.2026",
-    },
-    {
-        id: 2,
-        username: "Bora Çatalbaş",
-        role: "SME Staff",
-        status: "Active",
-        createdAt: "27.04.2026",
-    },
-    {
-        id: 3,
-        username: "Bilal Ay",
-        role: "SME Staff",
-        status: "Active",
-        createdAt: "27.04.2026",
-    },
-    {
-        id: 4,
-        username: "Şevval Esma Çoban",
-        role: "SME Staff",
-        status: "Active",
-        createdAt: "27.04.2026",
-    },
-    {
-        id: 5,
-        username: "Tuba Süeda Aytan",
-        role: "SME Staff",
-        status: "Inactive",
-        createdAt: "27.04.2026",
-    },
-];
 
-export default function UsersPage() {
+export default async function UsersPage() {
+    const [users, user] = await Promise.all([
+        api.getAllUsers(),
+        getServerSession()
+    ])
+    
+    if(user?.role !== "SME_OWNER") {
+        redirect("/dashboard")
+    }
     return (
         <div className="flex flex-col gap-6">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-                <p className="text-muted-foreground">
-                    View registered users and their roles in the system.
-                </p>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+                    <p className="text-muted-foreground">
+                        View registered users and their roles in the system.
+                    </p>
+                </div>
+
+                <CreateUserView />
             </div>
+            
 
             <div className="grid grid-cols-12 gap-4">
                 <Card className="col-span-12 md:col-span-4">
@@ -118,7 +99,7 @@ export default function UsersPage() {
 
                     <CardContent>
                         <p className="text-3xl font-bold">
-                            {users.filter((user) => user.role === "SME Owner").length}
+                            {users.filter((user) => user.role === "SME_OWNER").length}
                         </p>
                     </CardContent>
                 </Card>
@@ -137,7 +118,7 @@ export default function UsersPage() {
 
                     <CardContent>
                         <p className="text-3xl font-bold">
-                            {users.filter((user) => user.role === "SME Staff").length}
+                            {users.filter((user) => user.role === "SME_STAFF").length}
                         </p>
                     </CardContent>
                 </Card>
@@ -152,60 +133,7 @@ export default function UsersPage() {
 
                     <CardContent>
                         <div className="overflow-hidden rounded-md border">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[80px]">ID</TableHead>
-                                        <TableHead>User</TableHead>
-                                        <TableHead>Role</TableHead>
-                                        <TableHead>Member Since</TableHead>
-                                        <TableHead className="w-[60px]" />
-                                    </TableRow>
-                                </TableHeader>
-
-                                <TableBody>
-                                    {users.map((user) => (
-                                        <TableRow key={user.id}>
-                                            <TableCell className="font-medium text-muted-foreground">
-                                                {user.id}
-                                            </TableCell>
-                                            <TableCell>
-                                                <p className="font-medium">{user.username}</p>
-                                            </TableCell>
-
-                                            <TableCell>
-                                                <Badge
-                                                    variant={
-                                                        user.role === "SME Owner" ? "default" : "secondary"
-                                                    }
-                                                >
-                                                    {user.role}
-                                                </Badge>
-                                            </TableCell>
-
-                                            <TableCell className="text-muted-foreground">
-                                                {user.createdAt}
-                                            </TableCell>
-
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon">
-                                                            <MoreHorizontalIcon className="size-4" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Operations</DropdownMenuLabel>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuItem>Change Role</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                           <UsersTable users={users} />
                         </div>
                     </CardContent>
                 </Card>

@@ -1,6 +1,6 @@
 "use client"
 
-import { LoginFormValues, loginSchema } from "@/app/schemas/login.schema";
+import { LoginFormValues, loginSchema } from "@/app/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
