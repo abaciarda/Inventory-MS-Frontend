@@ -6,6 +6,12 @@ export type AuthUser = {
   role: string
 }
 
+export type ApiResponse<T> = {
+  success: boolean
+  message: string
+  data: T
+}
+
 export type DashboardStatCardProps = {
   title: string
   value: string

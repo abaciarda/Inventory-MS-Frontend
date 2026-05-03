@@ -16,13 +16,13 @@ export async function updateUserAction(id: number, username: string, role: UserR
   }
 }
 
-export async function createUserAction({ username, password, role } : CreateUserFormValues): Promise<UserActionResult> {
+export async function createUserAction({ username, password, role }: CreateUserFormValues): Promise<UserActionResult> {
   try {
-    const user = await api.createUser({ username, password, role});
+    const user = await api.createUser({ username, password, role })
     revalidatePath("/users")
     return { ok: true, user }
   } catch (e) {
-    const message = e instanceof Error ? e.message : "Update failed"
+    const message = e instanceof Error ? e.message : "Create failed"
     return { ok: false, message }
   }
 }

@@ -34,11 +34,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const responseData = await response.json();
+        const userData = responseData?.data;
         setUser({
-          id: data.userId,
-          username: data.username,
-          role: data.role
+          id: userData?.id,
+          username: userData?.username,
+          role: userData?.role
         })
       } else {
         setUser(null);

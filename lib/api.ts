@@ -1,4 +1,4 @@
-import type { UserRequest, UserResponse } from "@/types/app.types"
+import type { UserRequest, UserResponse, ApiResponse } from "@/types/app.types"
 import { env } from "./env"
 import { cookies } from "next/headers"
 import { CreateUserFormValues } from "@/app/schemas/auth.schema"
@@ -9,6 +9,19 @@ async function cookieHeader(): Promise<string> {
     .getAll()
     .map((c) => `${c.name}=${c.value}`)
     .join("; ")
+}
+
+function messageFromApiErrorBody(text: string): string {
+  const raw = text.trim()
+  if (!raw) return "Request failed"
+  try {
+    const data = JSON.parse(raw) as { message?: string }
+    if (typeof data.message === "string" && data.message.length > 0) {
+      return data.message
+    }
+  } catch {
+  }
+  return raw
 }
 
 export const api = {
@@ -28,8 +41,8 @@ export const api = {
         throw new Error("Failed to fetch users")
       }
 
-      const data: UserResponse[] = await res.json()
-      return data
+      const response: ApiResponse<UserResponse[]> = await res.json()
+      return response.data
     } catch(error) {
       console.error("API ERROR:", error)
       return []
@@ -37,50 +50,42 @@ export const api = {
   },
 
   updateUser: async (id: number, body: UserRequest): Promise<UserResponse> => {
-    try {
-      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: await cookieHeader(),
-        },
-        body: JSON.stringify(body),
-      })
-  
-      if (!res.ok) {
-        const text = await res.text()
-        throw new Error(text || "Failed to update user")
-      }
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body),
+    })
 
-      return res.json() as Promise<UserResponse>
-    } catch(error) {
-      console.error("API ERROR:", error)
-      return null as unknown as UserResponse
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to update user")
     }
+
+    const response = await res.json() as ApiResponse<UserResponse>
+    return response.data
   },
 
   createUser: async (body: CreateUserFormValues): Promise<UserResponse> => {
-    try {
-      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: await cookieHeader(),
-        },
-        body: JSON.stringify(body),
-      })
-  
-      if(!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Failed to create user");
-      }
-      
-      return res.json() as Promise<UserResponse>;
-    } catch(error) {
-      console.error("API ERROR:", error)
-      return null as unknown as UserResponse
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to create user")
     }
-  }
+
+    const response = await res.json() as ApiResponse<UserResponse>
+    return response.data
+  },
 }

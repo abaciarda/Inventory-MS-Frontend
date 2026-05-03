@@ -43,7 +43,7 @@ export function LoginForm() {
                 return;
             }
 
-            toast.success("Login successfull");
+            toast.success(data.message || "Login successful");
             await checkAuth();
             router.push('/dashboard');
 

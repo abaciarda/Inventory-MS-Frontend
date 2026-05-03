@@ -19,11 +19,12 @@ export async function getServerSession(): Promise<AuthUser | null> {
     });
 
     if (response.ok) {
-      const data = await response.json();
+      const responseData = await response.json();
+      const userData = responseData?.data;
       return {
-        id: data?.userId,
-        username: data?.username,
-        role: data?.role
+        id: userData?.id,
+        username: userData?.username,
+        role: userData?.role
       };
     }
     return null;
