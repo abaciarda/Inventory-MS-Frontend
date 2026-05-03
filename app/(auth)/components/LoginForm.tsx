@@ -27,7 +27,7 @@ export function LoginForm() {
     async function onSubmit(values: LoginFormValues) {
 
         try {
-            const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+            const res = await fetch(`/api/auth/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
