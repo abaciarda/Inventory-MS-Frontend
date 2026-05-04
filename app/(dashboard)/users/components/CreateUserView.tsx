@@ -1,17 +1,15 @@
 'use client'
-import { CreateUserFormValues, createUserSchema, LoginFormValues, loginSchema } from "@/app/schemas/auth.schema";
+import { CreateUserFormValues, createUserSchema } from "@/app/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { SelectTrigger, SelectValue, SelectContent, SelectItem, Select } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { createUserAction } from "@/lib/actions";
-import { env } from "@/lib/env";
-import { UserResponse } from "@/types/app.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export function CreateUserView() {
@@ -94,15 +92,23 @@ export function CreateUserView() {
 
                             <Field>
                                 <FieldLabel htmlFor="role">Role</FieldLabel>
-                                <Select {...form.register("role")}>
-                                    <SelectTrigger id="edit-role" className="w-full">
-                                        <SelectValue placeholder="Select role" />
-                                    </SelectTrigger>
-                                    <SelectContent position={"popper"}>
-                                        <SelectItem value="SME_OWNER">SME_OWNER</SelectItem>
-                                        <SelectItem value="SME_STAFF">SME_STAFF</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="role"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger id="role" className="w-full">
+                                                <SelectValue placeholder="Select role" />
+                                            </SelectTrigger>
+
+                                            <SelectContent position="popper">
+                                                <SelectItem value="SME_OWNER">SME_OWNER</SelectItem>
+                                                <SelectItem value="SME_STAFF">SME_STAFF</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                                
                                 {form.formState.errors.role && (
                                     <FieldError>
                                         {form.formState.errors.role.message}
