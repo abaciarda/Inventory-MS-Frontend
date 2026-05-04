@@ -1,8 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
 import type { AuthUser } from "@/types/app.types";
-import { env } from "@/lib/env";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type User = AuthUser;
 

@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
-import type { AuthUser } from "@/types/app.types";
 import { env } from "@/lib/env";
+import type { AuthUser } from "@/types/app.types";
+import { cookies } from "next/headers";
 
 export async function getServerSession(): Promise<AuthUser | null> {
   const cookieStore = await cookies();

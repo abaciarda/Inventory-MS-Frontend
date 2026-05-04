@@ -1,9 +1,9 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { CreateUserFormValues } from "@/app/schemas/auth.schema"
 import { api } from "@/lib/api"
 import type { UserActionResult, UserResponse } from "@/types/app.types"
-import { CreateUserFormValues } from "@/app/schemas/auth.schema"
+import { revalidatePath } from "next/cache"
 
 export async function updateUserAction(id: number, username: string, role: UserResponse["role"]): Promise<UserActionResult> {
   try {

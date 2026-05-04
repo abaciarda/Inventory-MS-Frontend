@@ -1,5 +1,6 @@
 "use client"
 
+import { useAuth } from "@/components/auth-provider"
 import {
   Avatar,
   AvatarFallback,
@@ -22,7 +23,6 @@ import {
 import { ChevronsUpDownIcon, LogOutIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { useAuth } from "@/components/auth-provider"
 
 export function NavUser() {
   const { isMobile } = useSidebar()

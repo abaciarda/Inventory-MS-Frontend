@@ -1,5 +1,6 @@
 import { AlertTriangleIcon, PackageIcon } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import {
     Card,
     CardContent,
@@ -7,7 +8,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
 const lowStockItems = [

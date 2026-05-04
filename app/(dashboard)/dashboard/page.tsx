@@ -1,10 +1,9 @@
-import { BoxesIcon, WalletIcon, AlertTriangleIcon, ArrowLeftRightIcon } from "lucide-react";
-import { DashboardStatCard } from "./components/DashboardStatCard";
-import { RecentStockMovements } from "./components/RecentStockMovements";
-import { LowStockAlerts } from "./components/LowStockAlerts";
-import { InventorySnapshotChart } from "./components/InventorySnapshotChart";
+import { AlertTriangleIcon, ArrowLeftRightIcon, BoxesIcon, WalletIcon } from "lucide-react";
 import { Metadata } from "next";
-import { getServerSession } from "@/lib/auth";
+import { DashboardStatCard } from "./components/DashboardStatCard";
+import { InventorySnapshotChart } from "./components/InventorySnapshotChart";
+import { LowStockAlerts } from "./components/LowStockAlerts";
+import { RecentStockMovements } from "./components/RecentStockMovements";
 
 export const metadata: Metadata = {
   title: "Dashboard",

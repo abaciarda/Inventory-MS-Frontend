@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
+import { LeafIcon } from "lucide-react"
 import Link from "next/link"
-import { LeafIcon, PackageIcon } from "lucide-react"
+import * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"

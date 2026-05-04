@@ -1,15 +1,14 @@
 "use client"
 
 import { LoginFormValues, loginSchema } from "@/app/schemas/auth.schema";
+import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
-import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAuth } from "@/components/auth-provider";
-import { env } from "@/lib/env";
 
 export function LoginForm() {
 

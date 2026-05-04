@@ -1,7 +1,7 @@
-import type { UserRequest, UserResponse, ApiResponse } from "@/types/app.types"
-import { env } from "./env"
-import { cookies } from "next/headers"
 import { CreateUserFormValues } from "@/app/schemas/auth.schema"
+import type { ApiResponse, UserRequest, UserResponse } from "@/types/app.types"
+import { cookies } from "next/headers"
+import { env } from "./env"
 
 async function cookieHeader(): Promise<string> {
   const store = await cookies()

@@ -1,11 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { CircleAlertIcon, HandCoinsIcon, RadioIcon, ShieldUserIcon, StoreIcon } from "lucide-react";
-import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
-import { Metadata } from "next";
-import { LoginForm } from "./components/LoginForm";
 import { getServerSession } from "@/lib/auth";
+import { CircleAlertIcon, HandCoinsIcon, RadioIcon, ShieldUserIcon, StoreIcon } from "lucide-react";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { LoginForm } from "./components/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log In",

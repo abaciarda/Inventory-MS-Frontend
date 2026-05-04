@@ -1,12 +1,9 @@
 import {
-    MoreHorizontalIcon,
     ShieldCheckIcon,
     UserIcon,
-    UsersIcon,
+    UsersIcon
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -14,28 +11,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Metadata } from "next";
 import { api } from "@/lib/api";
-import { UsersTable } from "./components/UsersTable";
-import { CreateUserView } from "./components/CreateUserView";
 import { getServerSession } from "@/lib/auth";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { CreateUserView } from "./components/CreateUserView";
+import { UsersTable } from "./components/UsersTable";
 
 export const metadata: Metadata = {
     title: "Users",

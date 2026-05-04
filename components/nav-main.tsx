@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { useAuth } from "@/components/auth-provider"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -11,7 +12,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { appNavSections } from "@/lib/dashboard-nav"
-import { useAuth } from "@/components/auth-provider"
 
 function isNavActive(pathname: string, href: string) {
   return pathname === href

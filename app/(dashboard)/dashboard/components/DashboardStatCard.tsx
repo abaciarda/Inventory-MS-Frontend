@@ -1,5 +1,5 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { DashboardStatCardProps } from "@/types/app.types";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { ArrowUpRightIcon } from "lucide-react";
 
 export function DashboardStatCard({ title, value, description, icon: Icon, trend }: DashboardStatCardProps) {
