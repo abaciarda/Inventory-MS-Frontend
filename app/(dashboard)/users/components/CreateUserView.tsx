@@ -116,7 +116,7 @@ export function CreateUserView() {
                                 )}
                             </Field>
                                                     
-                        <SheetFooter className="mt-auto flex-row justify-end gap-2 sm:justify-end w-full">
+                        <SheetFooter className="flex-row justify-end gap-2 sm:justify-end w-full px-0">
                             <Button
                                 type="button"
                                 variant="outline"

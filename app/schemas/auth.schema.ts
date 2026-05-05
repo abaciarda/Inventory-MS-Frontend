@@ -14,3 +14,11 @@ export const createUserSchema = z.object({
 })
 
 export type CreateUserFormValues = z.infer<typeof createUserSchema>;
+
+export const editUserSchema = z.object({
+    id: z.number(),
+    username: z.string().min(1, "Username is required").min(3, "Username must be at least 3 characters"),
+    role: z.enum(["SME_OWNER", "SME_STAFF"])
+})
+
+export type EditUserFormValues = z.infer<typeof editUserSchema>;

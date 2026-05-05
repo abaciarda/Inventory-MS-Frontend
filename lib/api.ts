@@ -49,8 +49,8 @@ export const api = {
     }
   },
 
-  updateUser: async (id: number, body: UserRequest): Promise<UserResponse> => {
-    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
+  updateUser: async (body: UserRequest): Promise<UserResponse> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/users/${body.id}`, {
       method: "PUT",
       credentials: "include",
       headers: {

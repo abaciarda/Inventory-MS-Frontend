@@ -28,6 +28,7 @@ export type UserResponse = {
 }
 
 export type UserRequest = {
+  id: number;
   username: string
   role: UserResponse["role"]
 }

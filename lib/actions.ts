@@ -1,13 +1,13 @@
 "use server"
 
-import { CreateUserFormValues } from "@/app/schemas/auth.schema"
+import { CreateUserFormValues, EditUserFormValues } from "@/app/schemas/auth.schema"
 import { api } from "@/lib/api"
-import type { UserActionResult, UserResponse } from "@/types/app.types"
+import type { UserActionResult } from "@/types/app.types"
 import { revalidatePath } from "next/cache"
 
-export async function updateUserAction(id: number, username: string, role: UserResponse["role"]): Promise<UserActionResult> {
+export async function updateUserAction({id, username, role } : EditUserFormValues): Promise<UserActionResult> {
   try {
-    const user = await api.updateUser(id, { username, role })
+    const user = await api.updateUser({id, username, role })
     revalidatePath("/users")
     return { ok: true, user }
   } catch (e) {
