@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Toaster } from "sonner";
 import { AuthProvider } from "@/components/auth-provider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "sonner";
+import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -60,6 +61,7 @@ export default function RootLayout({
           </ThemeProvider>
         </TooltipProvider>
         <Toaster richColors position="top-right" />
+        <Analytics />
       </body>
     </html>
   );
