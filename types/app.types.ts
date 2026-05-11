@@ -51,4 +51,4 @@ export type Product = {
 
 export type UserActionResult = | { ok: true; user: UserResponse } | { ok: false; message: string }
 
-export type ProductActionResult = | { ok: true; product: Omit<Product, "id"> } | { ok: false; message: string }
+export type ProductActionResult = | { ok: true; product?: Omit<Product, "id"> } | { ok: false; message: string }

@@ -26,7 +26,7 @@ function messageFromApiErrorBody(text: string): string {
     if (typeof data.message === "string" && data.message.length > 0) {
       return data.message
     }
-  } catch {}
+  } catch { }
   return raw
 }
 
@@ -198,4 +198,19 @@ export const api = {
     const response = (await res.json()) as ApiResponse<Product>
     return response.data
   },
+
+  deleteProduct: async (id: number): Promise<void> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to delete product")
+    }
+  }
 }

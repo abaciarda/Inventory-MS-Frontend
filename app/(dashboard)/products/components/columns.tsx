@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { deleteProductAction } from "@/lib/actions"
 import { Product } from "@/types/app.types"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -137,10 +138,26 @@ export const columns: ColumnDef<Product>[] = [
               >
                 Copy product ID
               </DropdownMenuItem>
+
               <DropdownMenuItem asChild>
                 <Link href={`/products/${product.id}/edit`}>
                   Edit product
                 </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={async () => {
+                  if (!product.id) return
+                  const res = await deleteProductAction(product.id)
+                  if (res.ok) {
+                    toast.success("Product deleted successfully")
+                  } else {
+                    toast.error(res.message)
+                  }
+                }}
+                className="text-red-500"
+              >
+                Delete product
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

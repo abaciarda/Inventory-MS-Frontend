@@ -6,9 +6,9 @@ import { api } from "@/lib/api"
 import type { ProductActionResult, UserActionResult } from "@/types/app.types"
 import { revalidatePath } from "next/cache"
 
-export async function updateUserAction({id, username, role } : EditUserFormValues): Promise<UserActionResult> {
+export async function updateUserAction({ id, username, role }: EditUserFormValues): Promise<UserActionResult> {
   try {
-    const user = await api.updateUser({id, username, role })
+    const user = await api.updateUser({ id, username, role })
     revalidatePath("/users")
     return { ok: true, user }
   } catch (e) {
@@ -33,7 +33,7 @@ export async function createProductAction(data: CreateProductFormValues): Promis
     const product = await api.createProduct(data);
     revalidatePath("/products")
     return { ok: true, product }
-  } catch(e) {
+  } catch (e) {
     const message = e instanceof Error ? e.message : "Create failed"
     return { ok: false, message }
   }
@@ -45,8 +45,19 @@ export async function updateProductAction(data: EditProductFormValues): Promise<
     const product = await api.updateProduct(id, rest);
     revalidatePath("/products")
     return { ok: true, product }
-  } catch(e) {
+  } catch (e) {
     const message = e instanceof Error ? e.message : "Update failed"
+    return { ok: false, message }
+  }
+}
+
+export async function deleteProductAction(id: number): Promise<ProductActionResult> {
+  try {
+    await api.deleteProduct(id);
+    revalidatePath("/products")
+    return { ok: true }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Delete failed"
     return { ok: false, message }
   }
 }
