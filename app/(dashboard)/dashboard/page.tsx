@@ -1,3 +1,4 @@
+import { api } from "@/lib/api";
 import { AlertTriangleIcon, ArrowLeftRightIcon, BoxesIcon, WalletIcon } from "lucide-react";
 import { Metadata } from "next";
 import { DashboardStatCard } from "./components/DashboardStatCard";
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  const dashboardData = await api.getDashboardData();
+
   return (
     <>
       <div>
@@ -22,7 +25,7 @@ export default async function Page() {
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 min-w-0">
         <DashboardStatCard
           title="Total Products"
-          value="248"
+          value={dashboardData?.totalProducts ?? 0}
           description="Active products in the system"
           icon={BoxesIcon}
           trend="+8%"
@@ -30,7 +33,7 @@ export default async function Page() {
 
         <DashboardStatCard
           title="Stock Value"
-          value="₺128.450"
+          value={dashboardData?.stockValue ?? 0}
           description="Total inventory cost value"
           icon={WalletIcon}
           trend="+14%"
@@ -38,14 +41,14 @@ export default async function Page() {
 
         <DashboardStatCard
           title="Low Stock"
-          value="12"
+          value={dashboardData?.lowStockAmount ?? 0}
           description="Products below the minimum threshold"
           icon={AlertTriangleIcon}
         />
 
         <DashboardStatCard
           title="Today's Movement"
-          value="36"
+          value={dashboardData?.movementCount ?? 0}
           description="Stock movements today"
           icon={ArrowLeftRightIcon}
           trend="+5"
