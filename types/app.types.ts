@@ -14,7 +14,7 @@ export type ApiResponse<T> = {
 
 export type DashboardStatCardProps = {
   title: string
-  value: string
+  value: number
   description: string
   icon: LucideIcon
   trend?: string
@@ -33,4 +33,22 @@ export type UserRequest = {
   role: UserResponse["role"]
 }
 
+export type DashboardDataRequest = {
+  totalProducts: number
+  stockValue: number
+  lowStockAmount: number
+  movementCount: number
+}
+
+export type Product = {
+  id: number
+  name: string
+  sku: string
+  costPrice: number
+  salesPrice: number
+  categoryId: number
+}
+
 export type UserActionResult = | { ok: true; user: UserResponse } | { ok: false; message: string }
+
+export type ProductActionResult = | { ok: true; product: Omit<Product, "id"> } | { ok: false; message: string }

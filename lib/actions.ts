@@ -1,8 +1,9 @@
 "use server"
 
 import { CreateUserFormValues, EditUserFormValues } from "@/app/schemas/auth.schema"
+import { CreateProductFormValues, EditProductFormValues } from "@/app/schemas/product.schema"
 import { api } from "@/lib/api"
-import type { UserActionResult } from "@/types/app.types"
+import type { ProductActionResult, UserActionResult } from "@/types/app.types"
 import { revalidatePath } from "next/cache"
 
 export async function updateUserAction({id, username, role } : EditUserFormValues): Promise<UserActionResult> {
@@ -23,6 +24,29 @@ export async function createUserAction({ username, password, role }: CreateUserF
     return { ok: true, user }
   } catch (e) {
     const message = e instanceof Error ? e.message : "Create failed"
+    return { ok: false, message }
+  }
+}
+
+export async function createProductAction(data: CreateProductFormValues): Promise<ProductActionResult> {
+  try {
+    const product = await api.createProduct(data);
+    revalidatePath("/products")
+    return { ok: true, product }
+  } catch(e) {
+    const message = e instanceof Error ? e.message : "Create failed"
+    return { ok: false, message }
+  }
+}
+
+export async function updateProductAction(data: EditProductFormValues): Promise<ProductActionResult> {
+  try {
+    const { id, ...rest } = data;
+    const product = await api.updateProduct(id, rest);
+    revalidatePath("/products")
+    return { ok: true, product }
+  } catch(e) {
+    const message = e instanceof Error ? e.message : "Update failed"
     return { ok: false, message }
   }
 }

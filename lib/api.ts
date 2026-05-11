@@ -1,5 +1,12 @@
 import { CreateUserFormValues } from "@/app/schemas/auth.schema"
-import type { ApiResponse, UserRequest, UserResponse } from "@/types/app.types"
+import { CreateProductFormValues } from "@/app/schemas/product.schema"
+import type {
+  ApiResponse,
+  DashboardDataRequest,
+  Product,
+  UserRequest,
+  UserResponse,
+} from "@/types/app.types"
 import { cookies } from "next/headers"
 import { env } from "./env"
 
@@ -19,8 +26,7 @@ function messageFromApiErrorBody(text: string): string {
     if (typeof data.message === "string" && data.message.length > 0) {
       return data.message
     }
-  } catch {
-  }
+  } catch {}
   return raw
 }
 
@@ -34,7 +40,7 @@ export const api = {
           Cookie: await cookieHeader(),
         },
       })
-  
+
       if (!res.ok) {
         const text = await res.text()
         console.log("API ERROR:", res.status, text)
@@ -43,7 +49,7 @@ export const api = {
 
       const response: ApiResponse<UserResponse[]> = await res.json()
       return response.data
-    } catch(error) {
+    } catch (error) {
       console.error("API ERROR:", error)
       return []
     }
@@ -65,7 +71,7 @@ export const api = {
       throw new Error(messageFromApiErrorBody(text) || "Failed to update user")
     }
 
-    const response = await res.json() as ApiResponse<UserResponse>
+    const response = (await res.json()) as ApiResponse<UserResponse>
     return response.data
   },
 
@@ -85,7 +91,111 @@ export const api = {
       throw new Error(messageFromApiErrorBody(text) || "Failed to create user")
     }
 
-    const response = await res.json() as ApiResponse<UserResponse>
+    const response = (await res.json()) as ApiResponse<UserResponse>
+    return response.data
+  },
+
+  getDashboardData: async (): Promise<DashboardDataRequest | null> => {
+    try {
+      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: await cookieHeader(),
+        },
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        console.log("API ERROR:", res.status, text)
+        throw new Error("Failed to fetch dashboard data")
+      }
+
+      const response: ApiResponse<DashboardDataRequest> = await res.json()
+      return response.data
+    } catch (error) {
+      console.error("API Error: ", error)
+      return null
+    }
+  },
+
+  getProducts: async (): Promise<Product[]> => {
+    try {
+      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: await cookieHeader(),
+        },
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        console.log("API ERROR:", res.status, text)
+        throw new Error("Failed to fetch products")
+      }
+
+      const response: ApiResponse<Product[]> = await res.json()
+      return response.data
+    } catch (error) {
+      console.error("API Error: ", error)
+      return []
+    }
+  },
+
+  createProduct: async (body: CreateProductFormValues): Promise<Product> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body)
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to create product")
+    }
+
+    const response = (await res.json()) as ApiResponse<Product>
+    return response.data
+  },
+
+  getProductById: async (id: number): Promise<Product> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to fetch product")
+    }
+
+    const response = (await res.json()) as ApiResponse<Product>
+    return response.data
+  },
+
+  updateProduct: async (id: number, body: Omit<Product, "id"> | any): Promise<Product> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/products/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body)
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to update product")
+    }
+
+    const response = (await res.json()) as ApiResponse<Product>
     return response.data
   },
 }
