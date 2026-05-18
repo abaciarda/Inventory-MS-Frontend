@@ -18,6 +18,7 @@ import {
 import { api } from "@/lib/api"
 
 import { EditProductForm } from "../../components/EditProductForm"
+import { ProductStockSection } from "../../components/product-stock-section"
 
 export const metadata: Metadata = {
   title: "Edit Product",
@@ -41,9 +42,12 @@ export default async function EditProductPage({
     notFound()
   }
 
-  const [product, categories] = await Promise.all([
+  const [product, categories, stock, movements, products] = await Promise.all([
     api.getProductById(parsedProductId).catch(() => null),
     api.getCategories(),
+    api.getStockByProductId(parsedProductId),
+    api.getStockMovementsByProductId(parsedProductId),
+    api.getProducts(),
   ])
 
   if (!product) {
@@ -122,6 +126,13 @@ export default async function EditProductPage({
             </CardContent>
           </Card>
         </div>
+
+        <ProductStockSection
+          product={product}
+          stock={stock}
+          movements={movements}
+          products={products}
+        />
       </div>
     </div>
   )

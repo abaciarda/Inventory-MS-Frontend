@@ -32,6 +32,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
       categoryId: "",
       costPrice: "",
       salesPrice: "",
+      initialStockQuantity: "0",
     },
   })
 
@@ -152,6 +153,27 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
 
           {form.formState.errors.salesPrice && (
             <FieldError>{form.formState.errors.salesPrice.message}</FieldError>
+          )}
+        </Field>
+
+        <Field className="col-span-12 md:col-span-6">
+          <FieldLabel htmlFor="initialStockQuantity">
+            Initial Stock Quantity
+          </FieldLabel>
+          <Input
+            id="initialStockQuantity"
+            type="number"
+            step="1"
+            min="0"
+            placeholder="50"
+            className="h-11 bg-muted/40"
+            {...form.register("initialStockQuantity")}
+          />
+
+          {form.formState.errors.initialStockQuantity && (
+            <FieldError>
+              {form.formState.errors.initialStockQuantity.message}
+            </FieldError>
           )}
         </Field>
       </div>
