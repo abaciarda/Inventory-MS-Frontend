@@ -15,13 +15,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { updateProductAction } from "@/lib/actions"
-import type { Product } from "@/types/app.types"
+import type { Category, Product } from "@/types/app.types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-export function EditProductForm({ product }: { product: Product }) {
+export function EditProductForm({
+  product,
+  categories,
+}: {
+  product: Product
+  categories: Category[]
+}) {
   const router = useRouter()
 
   const form = useForm<EditProductFormValues>({
@@ -101,11 +107,11 @@ export function EditProductForm({ product }: { product: Product }) {
                 </SelectTrigger>
 
                 <SelectContent position="popper">
-                  <SelectItem value="1">Electronics</SelectItem>
-                  <SelectItem value="2">Accessories</SelectItem>
-                  <SelectItem value="3">Office</SelectItem>
-                  <SelectItem value="4">Medical</SelectItem>
-                  <SelectItem value="5">Other</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             )}

@@ -15,12 +15,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { createProductAction } from "@/lib/actions"
+import type { Category } from "@/types/app.types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-export function AddProductForm() {
+export function AddProductForm({ categories }: { categories: Category[] }) {
   const router = useRouter()
 
   const form = useForm<CreateProductFormValues>({
@@ -99,11 +100,17 @@ export function AddProductForm() {
                 </SelectTrigger>
 
                 <SelectContent position="popper">
-                  <SelectItem value="1">Electronics</SelectItem>
-                  <SelectItem value="2">Accessories</SelectItem>
-                  <SelectItem value="3">Office</SelectItem>
-                  <SelectItem value="4">Medical</SelectItem>
-                  <SelectItem value="5">Other</SelectItem>
+                  {categories.length === 0 ? (
+                    <SelectItem value="" disabled>
+                      No categories available
+                    </SelectItem>
+                  ) : (
+                    categories.map((category) => (
+                      <SelectItem key={category.id} value={String(category.id)}>
+                        {category.name}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
             )}

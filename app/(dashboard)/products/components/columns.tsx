@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { deleteProductAction } from "@/lib/actions"
-import { Product } from "@/types/app.types"
+import type { Category, Product } from "@/types/app.types"
 import Link from "next/link"
 import { toast } from "sonner"
 
@@ -25,7 +25,12 @@ function formatCurrency(value: unknown) {
   }).format(Number(value ?? 0))
 }
 
-export const columns: ColumnDef<Product>[] = [
+export function getProductColumns(categories: Category[]): ColumnDef<Product>[] {
+  const categoryMap = new Map(
+    categories.map((category) => [category.id, category.name])
+  )
+
+  return [
   {
     accessorKey: "id",
     header: ({ column }) => (
@@ -72,11 +77,16 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "categoryId",
     header: "Category",
-    cell: ({ row }) => (
-      <Badge variant="secondary">
-        Category #{row.getValue("categoryId")}
-      </Badge>
-    ),
+    cell: ({ row }) => {
+      const categoryId = row.getValue("categoryId") as number
+      const categoryName = categoryMap.get(categoryId)
+
+      return (
+        <Badge variant="secondary">
+          {categoryName ?? `Category #${categoryId}`}
+        </Badge>
+      )
+    },
   },
   {
     accessorKey: "costPrice",
@@ -167,3 +177,4 @@ export const columns: ColumnDef<Product>[] = [
     enableSorting: false,
   },
 ]
+}

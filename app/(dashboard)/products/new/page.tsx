@@ -15,6 +15,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
+import { api } from "@/lib/api"
+
 import { AddProductForm } from "../components/AddProductForm"
 
 export const metadata: Metadata = {
@@ -23,7 +25,9 @@ export const metadata: Metadata = {
     "Create a new product with SKU, category, cost price, and sales price information.",
 }
 
-export default function AddProductPage() {
+export default async function AddProductPage() {
+  const categories = await api.getCategories()
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -51,7 +55,7 @@ export default function AddProductPage() {
           </CardHeader>
 
           <CardContent>
-            <AddProductForm />
+            <AddProductForm categories={categories} />
           </CardContent>
         </Card>
 

@@ -41,7 +41,10 @@ export default async function EditProductPage({
     notFound()
   }
 
-  const product = await api.getProductById(parsedProductId).catch(() => null)
+  const [product, categories] = await Promise.all([
+    api.getProductById(parsedProductId).catch(() => null),
+    api.getCategories(),
+  ])
 
   if (!product) {
     notFound()
@@ -74,7 +77,7 @@ export default async function EditProductPage({
           </CardHeader>
 
           <CardContent>
-            <EditProductForm product={product} />
+            <EditProductForm product={product} categories={categories} />
           </CardContent>
         </Card>
 

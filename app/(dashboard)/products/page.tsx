@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/card"
 
 import { api } from "@/lib/api"
-import { columns } from "./components/columns"
-import { DataTable } from "./components/data-table"
+import { ProductsTable } from "./components/products-table"
 
 export const metadata: Metadata = {
   title: "Products",
@@ -25,8 +24,10 @@ export const metadata: Metadata = {
 }
 
 export default async function ProductsPage() {
-  const products = await api.getProducts();
-  console.log("Fetched products:", products)
+  const [products, categories] = await Promise.all([
+    api.getProducts(),
+    api.getCategories(),
+  ])
 
   const totalProducts = products.length
 
@@ -38,9 +39,7 @@ export default async function ProductsPage() {
     return total + Number(product.salesPrice ?? 0)
   }, 0)
 
-  const categoryCount = new Set(
-    products.map((product) => product.categoryId)
-  ).size
+  const categoryCount = categories.length
 
   const averageProfit =
     totalProducts > 0
@@ -144,7 +143,7 @@ export default async function ProductsPage() {
           </CardHeader>
 
           <CardContent>
-            <DataTable columns={columns} data={products} />
+            <ProductsTable products={products} categories={categories} />
           </CardContent>
         </Card>
       </div>

@@ -1,7 +1,12 @@
 import { CreateUserFormValues } from "@/app/schemas/auth.schema"
+import {
+  CreateCategoryFormValues,
+  EditCategoryFormValues,
+} from "@/app/schemas/category.schema"
 import { CreateProductFormValues } from "@/app/schemas/product.schema"
 import type {
   ApiResponse,
+  Category,
   DashboardDataRequest,
   Product,
   UserRequest,
@@ -212,5 +217,103 @@ export const api = {
       const text = await res.text()
       throw new Error(messageFromApiErrorBody(text) || "Failed to delete product")
     }
-  }
+  },
+
+  getCategories: async (): Promise<Category[]> => {
+    try {
+      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/categories`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: await cookieHeader(),
+        },
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        console.log("API ERROR:", res.status, text)
+        throw new Error("Failed to fetch categories")
+      }
+
+      const response: ApiResponse<Category[]> = await res.json()
+      return response.data
+    } catch (error) {
+      console.error("API Error: ", error)
+      return []
+    }
+  },
+
+  getCategoryById: async (id: number): Promise<Category> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/categories/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to fetch category")
+    }
+
+    const response = (await res.json()) as ApiResponse<Category>
+    return response.data
+  },
+
+  createCategory: async (body: CreateCategoryFormValues): Promise<Category> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to create category")
+    }
+
+    const response = (await res.json()) as ApiResponse<Category>
+    return response.data
+  },
+
+  updateCategory: async (
+    id: number,
+    body: Omit<EditCategoryFormValues, "id">
+  ): Promise<Category> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/categories/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to update category")
+    }
+
+    const response = (await res.json()) as ApiResponse<Category>
+    return response.data
+  },
+
+  deleteCategory: async (id: number): Promise<void> => {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/categories/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: await cookieHeader(),
+      },
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(messageFromApiErrorBody(text) || "Failed to delete category")
+    }
+  },
 }
