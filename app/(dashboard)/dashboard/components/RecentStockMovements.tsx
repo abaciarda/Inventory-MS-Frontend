@@ -1,141 +1,109 @@
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-  
-  import {
+} from "@/components/ui/card"
+import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-  
-  import { Badge } from "@/components/ui/badge";
-  
-  const movements = [
-    {
-      id: 1,
-      product: "Wireless Mouse",
-      sku: "PRD-001",
-      type: "In",
-      quantity: 25,
-      user: "Arda Abacı",
-      date: "Today, 14:20",
-    },
-    {
-      id: 2,
-      product: "Mechanical Keyboard",
-      sku: "PRD-002",
-      type: "Out",
-      quantity: 8,
-      user: "Bora Çatalbaş",
-      date: "Today, 12:45",
-    },
-    {
-      id: 3,
-      product: "USB-C Cable",
-      sku: "PRD-003",
-      type: "In",
-      quantity: 50,
-      user: "Şevval Esma Çoban",
-      date: "Yesterday, 17:10",
-    },
-    {
-      id: 4,
-      product: "HDMI Cable",
-      sku: "PRD-004",
-      type: "Out",
-      quantity: 10,
-      user: "Arda Abacı",
-      date: "Yesterday, 17:10",
-    },
-    {
-      id: 5,
-      product: "VGA Cable",
-      sku: "PRD-005",
-      type: "In",
-      quantity: 20,
-      user: "Bilal Ay",
-      date: "Yesterday, 17:10",
-    },
-    {
-      id: 6,
-      product: "USB-A Cable",
-      sku: "PRD-006",
-      type: "Out",
-      quantity: 15,
-      user: "Tuba Süeda Aytan",
-      date: "Yesterday, 17:10",
-    },
-  ];
-  
-  export function RecentStockMovements() {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Stock Movements</CardTitle>
-          <CardDescription>
-            Recent stock movements in the inventory.
-          </CardDescription>
-        </CardHeader>
-  
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead>SKU</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Quantity</TableHead>
-                <TableHead>User</TableHead>
-                <TableHead className="text-right">Date</TableHead>
-              </TableRow>
-            </TableHeader>
-  
-            <TableBody>
-              {movements.map((movement) => (
+} from "@/components/ui/table"
+import { formatStockTimestamp } from "@/lib/stock-utils"
+import type { MovementType, StockMovementRow } from "@/types/app.types"
+
+function movementBadgeVariant(type: MovementType) {
+  if (type === "IN") return "default" as const
+  if (type === "OUT") return "secondary" as const
+  return "outline" as const
+}
+
+function quantityPrefix(type: MovementType) {
+  if (type === "IN") return "+"
+  if (type === "OUT") return "-"
+  return ""
+}
+
+type RecentStockMovementsProps = {
+  movements: StockMovementRow[]
+}
+
+export function RecentStockMovements({ movements }: RecentStockMovementsProps) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Recent Stock Movements</CardTitle>
+        <CardDescription>
+          Latest stock transactions recorded in the system.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product</TableHead>
+              <TableHead>SKU</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead className="text-right">Quantity</TableHead>
+              <TableHead>User</TableHead>
+              <TableHead className="text-right">Date</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {movements.length ? (
+              movements.map((movement) => (
                 <TableRow key={movement.id}>
                   <TableCell className="font-medium">
-                    {movement.product}
+                    {movement.productName ?? `Product #${movement.productId}`}
                   </TableCell>
-  
+
                   <TableCell className="text-muted-foreground">
-                    {movement.sku}
+                    {movement.productSku ?? "—"}
                   </TableCell>
-  
+
                   <TableCell>
                     <Badge
-                      className="w-10"
-                      variant={
-                        movement.type === "In" ? "default" : "secondary"
-                      }
+                      className="min-w-10"
+                      variant={movementBadgeVariant(movement.type)}
                     >
                       {movement.type}
                     </Badge>
                   </TableCell>
-  
+
                   <TableCell className="text-right">
-                    {movement.type === "In" ? "+" : "-"}
+                    {quantityPrefix(movement.type)}
                     {movement.quantity}
                   </TableCell>
-  
+
                   <TableCell className="text-muted-foreground">
-                    {movement.user}
+                    {movement.username}
                   </TableCell>
-  
+
                   <TableCell className="text-right text-muted-foreground">
-                    {movement.date}
+                    {formatStockTimestamp(movement.timestamp)}
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    );
-  }
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  No recent movements.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  )
+}

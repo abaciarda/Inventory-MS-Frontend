@@ -86,6 +86,7 @@ export const appNavSections: AppNavSection[] = [
   },
   {
     label: "Analytics",
+    breadcrumbHubHref: "/analytics/reports",
     items: [
       {
         title: "Reports",

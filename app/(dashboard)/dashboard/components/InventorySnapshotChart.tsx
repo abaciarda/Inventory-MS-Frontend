@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -8,55 +8,31 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-
+} from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-
-const chartData = [
-  {
-    category: "Electronics",
-    products: 84,
-    lowStock: 8,
-  },
-  {
-    category: "Accessories",
-    products: 56,
-    lowStock: 6,
-  },
-  {
-    category: "Office",
-    products: 42,
-    lowStock: 4,
-  },
-  {
-    category: "Medical",
-    products: 31,
-    lowStock: 2,
-  },
-  {
-    category: "Other",
-    products: 18,
-    lowStock: 1,
-  },
-];
+} from "@/components/ui/chart"
+import type { CategoryDistribution } from "@/types/app.types"
 
 const chartConfig = {
   products: {
-    label: "Total Products ",
+    label: "Total Products",
     color: "var(--chart-2)",
   },
   lowStock: {
-    label: "Low Stock ",
+    label: "Low Stock",
     color: "var(--chart-5)",
   },
-} satisfies ChartConfig;
+} satisfies ChartConfig
 
-export function InventorySnapshotChart() {
+type InventorySnapshotChartProps = {
+  data: CategoryDistribution[]
+}
+
+export function InventorySnapshotChart({ data }: InventorySnapshotChartProps) {
   return (
     <Card>
       <CardHeader>
@@ -67,39 +43,41 @@ export function InventorySnapshotChart() {
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[320px] w-full">
-          <BarChart data={chartData}>
-            <CartesianGrid vertical={false} />
+        {data.length ? (
+          <ChartContainer config={chartConfig} className="h-[320px] w-full">
+            <BarChart data={data}>
+              <CartesianGrid vertical={false} />
 
-            <XAxis
-              dataKey="category"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-            />
+              <XAxis
+                dataKey="category"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+              />
 
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-            />
+              <YAxis tickLine={false} axisLine={false} tickMargin={10} />
 
-            <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartTooltip content={<ChartTooltipContent />} />
 
-            <Bar
-              dataKey="products"
-              fill="var(--color-products)"
-              radius={[6, 6, 0, 0]}
-            />
+              <Bar
+                dataKey="products"
+                fill="var(--color-products)"
+                radius={[6, 6, 0, 0]}
+              />
 
-            <Bar
-              dataKey="lowStock"
-              fill="var(--color-lowStock)"
-              radius={[6, 6, 0, 0]}
-            />
-          </BarChart>
-        </ChartContainer>
+              <Bar
+                dataKey="lowStock"
+                fill="var(--color-lowStock)"
+                radius={[6, 6, 0, 0]}
+              />
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          <p className="flex h-[320px] items-center justify-center text-sm text-muted-foreground">
+            No category distribution data available.
+          </p>
+        )}
       </CardContent>
     </Card>
-  );
+  )
 }
