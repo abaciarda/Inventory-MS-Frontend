@@ -14,7 +14,7 @@ export type ApiResponse<T> = {
 
 export type DashboardStatCardProps = {
   title: string
-  value: number
+  value: number | string
   description: string
   icon: LucideIcon
   trend?: string
@@ -33,12 +33,33 @@ export type UserRequest = {
   role: UserResponse["role"]
 }
 
-export type DashboardDataRequest = {
+export type CategoryDistribution = {
+  category: string
+  products: number
+  lowStock: number
+}
+
+export type DashboardLowStockAlert = {
+  id: number
+  currentQuantity: number
+  minThreshold: number
+  lastUpdated: string
+  productId: number
+  productName: string
+  productSku: string
+}
+
+export type DashboardData = {
   totalProducts: number
   stockValue: number
   lowStockAmount: number
   movementCount: number
+  recentMovements: StockMovement[]
+  lowStockAlerts: DashboardLowStockAlert[]
+  inventorySnapshot: CategoryDistribution[]
 }
+
+export type DashboardDataRequest = DashboardData
 
 export type Product = {
   id: number
@@ -61,4 +82,92 @@ export type Category = {
 
 export type CategoryActionResult =
   | { ok: true; category?: Category }
+  | { ok: false; message: string }
+
+export type MovementType = "IN" | "OUT" | "ADJUSTMENT"
+
+export type Stock = {
+  id: number
+  currentQuantity: number
+  minThreshold: number
+  lastUpdated: string
+  productId: number
+}
+
+export type StockMovement = {
+  id: number
+  type: MovementType
+  quantity: number
+  timestamp: string
+  reason: string
+  productId: number
+  userId: number
+  username: string
+}
+
+export type StockMovementRow = StockMovement & {
+  productName?: string
+  productSku?: string
+}
+
+export type LowStockRow = Stock & {
+  productName: string
+  productSku: string
+}
+
+export type StockMovementActionResult =
+  | { ok: true; movement?: StockMovement }
+  | { ok: false; message: string }
+
+export type StockActionResult =
+  | { ok: true; stock?: Stock }
+  | { ok: false; message: string }
+
+export type ProfitabilitySummary = {
+  totalCostValue: number
+  totalRetailValue: number
+  potentialProfit: number
+  averageProfitMargin: number
+}
+
+export type CategoryProfitability = {
+  categoryName: string
+  costValue: number
+  retailValue: number
+  potentialProfit: number
+  profitMargin: number
+}
+
+export type ProductProfitability = {
+  productId: number
+  productName: string
+  sku: string
+  costPrice: number
+  salesPrice: number
+  quantity: number
+  potentialProfit: number
+  profitMargin: number
+}
+
+export type ReportFileFormat = "CSV" | "PDF" | "EXCEL"
+
+export type StoredReport = {
+  id: number
+  name: string
+  format: ReportFileFormat | string
+  generatedAt: string
+  generatedBy: string
+}
+
+export type StoredReportActionResult =
+  | { ok: true; report?: StoredReport }
+  | { ok: false; message: string }
+
+export type ReportDownloadResult =
+  | {
+      ok: true
+      data: string
+      contentType: string
+      filename: string
+    }
   | { ok: false; message: string }

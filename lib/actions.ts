@@ -5,11 +5,21 @@ import {
   CreateCategoryFormValues,
   EditCategoryFormValues,
 } from "@/app/schemas/category.schema"
+import { GenerateReportFormValues } from "@/app/schemas/report.schema"
 import { CreateProductFormValues, EditProductFormValues } from "@/app/schemas/product.schema"
+import {
+  RecordStockMovementFormValues,
+  UpdateStockThresholdFormValues,
+  normalizeStockMovementInput,
+} from "@/app/schemas/stock.schema"
 import { api } from "@/lib/api"
 import type {
   CategoryActionResult,
   ProductActionResult,
+  ReportDownloadResult,
+  StoredReportActionResult,
+  StockActionResult,
+  StockMovementActionResult,
   UserActionResult,
 } from "@/types/app.types"
 import { revalidatePath } from "next/cache"
@@ -40,6 +50,8 @@ export async function createProductAction(data: CreateProductFormValues): Promis
   try {
     const product = await api.createProduct(data);
     revalidatePath("/products")
+    revalidatePath("/stock")
+    revalidatePath("/stock/alerts")
     return { ok: true, product }
   } catch (e) {
     const message = e instanceof Error ? e.message : "Create failed"
@@ -104,6 +116,69 @@ export async function deleteCategoryAction(id: number): Promise<CategoryActionRe
     return { ok: true }
   } catch (e) {
     const message = e instanceof Error ? e.message : "Delete failed"
+    return { ok: false, message }
+  }
+}
+
+export async function recordStockMovementAction(
+  data: RecordStockMovementFormValues | RecordStockMovementFormValues[]
+): Promise<StockMovementActionResult> {
+  try {
+    const values = normalizeStockMovementInput(data)
+    const movement = await api.recordStockMovement(values)
+    revalidatePath("/stock")
+    revalidatePath("/stock/alerts")
+    revalidatePath("/products")
+    revalidatePath(`/products/${values.productId}/edit`)
+    return { ok: true, movement }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Movement failed"
+    return { ok: false, message }
+  }
+}
+
+export async function updateStockThresholdAction(
+  data: UpdateStockThresholdFormValues
+): Promise<StockActionResult> {
+  try {
+    const stock = await api.updateStockThreshold(data.productId, {
+      minThreshold: data.minThreshold,
+    })
+    revalidatePath("/stock/alerts")
+    revalidatePath(`/products/${data.productId}/edit`)
+    return { ok: true, stock }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Update failed"
+    return { ok: false, message }
+  }
+}
+
+export async function generateReportAction(
+  data: GenerateReportFormValues
+): Promise<StoredReportActionResult> {
+  try {
+    const report = await api.generateReport(data)
+    revalidatePath("/analytics/reports")
+    return { ok: true, report }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Generate failed"
+    return { ok: false, message }
+  }
+}
+
+export async function downloadStoredReportAction(
+  id: number
+): Promise<ReportDownloadResult> {
+  try {
+    const file = await api.downloadStoredReport(id)
+    return {
+      ok: true,
+      data: Buffer.from(file.data).toString("base64"),
+      contentType: file.contentType,
+      filename: file.filename,
+    }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Download failed"
     return { ok: false, message }
   }
 }

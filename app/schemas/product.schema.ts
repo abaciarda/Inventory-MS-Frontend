@@ -33,12 +33,23 @@ export const createProductSchema = z.object({
     .refine((value) => Number(value) >= 0, {
       message: "Sales price must be 0 or greater.",
     }),
+
+  initialStockQuantity: z
+    .string()
+    .min(1, "Initial stock quantity is required.")
+    .refine(
+      (value) =>
+        Number.isInteger(Number(value)) && Number(value) >= 0,
+      { message: "Initial stock must be a whole number of 0 or greater." }
+    ),
 })
 
 export type CreateProductFormValues = z.infer<typeof createProductSchema>
 
-export const editProductSchema = createProductSchema.extend({
+export const editProductSchema = createProductSchema
+  .omit({ initialStockQuantity: true })
+  .extend({
     id: z.number(),
-})
+  })
 
 export type EditProductFormValues = z.infer<typeof editProductSchema>
