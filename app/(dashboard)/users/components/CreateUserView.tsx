@@ -38,7 +38,7 @@ export function CreateUserView() {
 
     return (
         <>
-            <Button onClick={() => setEditing(true) }>
+            <Button onClick={() => setEditing(true) } data-testid="create-user-button">
                 Add User
             </Button>
 
@@ -63,6 +63,7 @@ export function CreateUserView() {
                                     placeholder="Username..."
                                     autoComplete="username"
                                     className="h-11 bg-muted/40"
+                                    data-testid="create-username-input"
                                     {...form.register("username")}
                                 />
                                 { form.formState.errors.username && (
@@ -80,6 +81,7 @@ export function CreateUserView() {
                                     placeholder="Password..."
                                     autoComplete="password"
                                     className="h-11 bg-muted/40"
+                                    data-testid="create-password-input"
                                     {...form.register("password")}
                                 />
 
@@ -97,7 +99,7 @@ export function CreateUserView() {
                                     control={form.control}
                                     render={({ field }) => (
                                         <Select value={field.value} onValueChange={field.onChange}>
-                                            <SelectTrigger id="role" className="w-full">
+                                            <SelectTrigger id="role" className="w-full" data-testid="create-role-select">
                                                 <SelectValue placeholder="Select role" />
                                             </SelectTrigger>
 
@@ -125,7 +127,7 @@ export function CreateUserView() {
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" disabled={form.formState.isSubmitting}>
+                            <Button type="submit" disabled={form.formState.isSubmitting} data-testid="create-submit-button">
                                 {form.formState.isSubmitting ? "Creating..." : "Create"}
                             </Button>
                         </SheetFooter>

@@ -67,6 +67,7 @@ export function LoginForm() {
                         placeholder="Username..."
                         autoComplete="username"
                         className="h-11 bg-muted/40"
+                        data-testid="login-username-input"
                         {...form.register("username")}
                     />
 
@@ -88,6 +89,7 @@ export function LoginForm() {
                         placeholder="••••••••"
                         autoComplete="current-password"
                         className="h-11 bg-muted/40"
+                        data-testid="login-password-input"
                         { ...form.register("password") }
                     />
 
@@ -99,7 +101,7 @@ export function LoginForm() {
                 </Field>
             </FieldGroup>
 
-            <Button disabled={ form.formState.isSubmitting } type="submit" className="h-11 w-full hover:brightness-125">
+            <Button disabled={ form.formState.isSubmitting } type="submit" className="h-11 w-full hover:brightness-125" data-testid="login-submit-button">
                 { form.formState.isSubmitting ? 'Signing in...' : 'Login' }
             </Button>
         </form>

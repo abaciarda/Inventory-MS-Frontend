@@ -66,6 +66,7 @@ export function NavUser() {
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              data-testid="user-menu-button"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={displayAvatar} alt={displayName} />
@@ -102,7 +103,7 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <div onClick={ () => handleLogOut() } className="cursor-pointer">
+              <div onClick={ () => handleLogOut() } className="cursor-pointer" data-testid="logout-button">
                 <LogOutIcon />
                 Logout
               </div>

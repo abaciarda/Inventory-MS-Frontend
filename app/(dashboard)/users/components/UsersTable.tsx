@@ -93,7 +93,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
 
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id}>
+            <TableRow key={user.id} data-testid="user-row">
               <TableCell className="font-medium text-muted-foreground">
                 {user.id}
               </TableCell>
@@ -118,7 +118,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" data-testid="user-actions-button">
                       <MoreHorizontalIcon className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -126,7 +126,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Operations</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onSelect={() => openEditMode(user)}>
+                    <DropdownMenuItem onSelect={() => openEditMode(user)} data-testid="user-edit-button">
                       Edit user
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -155,6 +155,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
                 autoComplete="off"
                 minLength={3}
                 maxLength={80}
+                data-testid="edit-username-input"
               />
 
               {form.formState.errors.username && (
@@ -174,7 +175,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
                     value={field.value}
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger id="edit-role" className="w-full">
+                    <SelectTrigger id="edit-role" className="w-full" data-testid="edit-role-select">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
 
@@ -201,7 +202,7 @@ export function UsersTable({ users }: { users: UserResponse[] }) {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={ form.formState.isSubmitting }>
+              <Button type="submit" disabled={ form.formState.isSubmitting } data-testid="edit-submit-button">
                 {form.formState.isSubmitting ? "Saving…" : "Save"}
               </Button>
             </SheetFooter>
