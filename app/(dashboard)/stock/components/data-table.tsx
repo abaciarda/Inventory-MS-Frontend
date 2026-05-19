@@ -75,6 +75,7 @@ export function DataTable<TData, TValue>({
               table.getColumn(searchColumn)?.setFilterValue(event.target.value)
             }
             className="h-10 pl-9"
+            data-testid={`${entityLabel}s-search-input`}
           />
         </div>
       </div>

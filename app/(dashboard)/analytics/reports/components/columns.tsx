@@ -103,6 +103,7 @@ function DownloadReportButton({ report }: { report: StoredReport }) {
         size="sm"
         disabled={loading}
         onClick={handleDownload}
+        data-testid="download-report-button"
       >
         <DownloadIcon className="mr-2 size-4" />
         {loading ? "Downloading..." : "Download"}

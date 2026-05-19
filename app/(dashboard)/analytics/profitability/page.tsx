@@ -49,6 +49,7 @@ export default async function ProfitabilityPage() {
           value={formatCurrency(summary?.totalCostValue ?? 0)}
           description="Capital tied up in stock"
           icon={WalletIcon}
+          dataTestId="total-cost-value-card"
         />
 
         <DashboardStatCard
@@ -56,6 +57,7 @@ export default async function ProfitabilityPage() {
           value={formatCurrency(summary?.totalRetailValue ?? 0)}
           description="Potential revenue at current stock"
           icon={DollarSignIcon}
+          dataTestId="total-retail-value-card"
         />
 
         <DashboardStatCard
@@ -63,6 +65,7 @@ export default async function ProfitabilityPage() {
           value={formatCurrency(summary?.potentialProfit ?? 0)}
           description="Retail value minus cost value"
           icon={TrendingUpIcon}
+          dataTestId="potential-profit-card"
         />
 
         <DashboardStatCard
@@ -70,6 +73,7 @@ export default async function ProfitabilityPage() {
           value={formatPercent(summary?.averageProfitMargin ?? 0)}
           description="Overall profit margin percentage"
           icon={PercentIcon}
+          dataTestId="average-margin-card"
         />
       </div>
 

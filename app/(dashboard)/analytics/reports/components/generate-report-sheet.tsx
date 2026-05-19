@@ -60,7 +60,7 @@ export function GenerateReportSheet() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)} data-testid="generate-report-button">
         <FileBarChartIcon className="mr-2 size-4" />
         Generate New Report
       </Button>
@@ -86,6 +86,7 @@ export function GenerateReportSheet() {
                 placeholder="Q1 Stock Movement Report"
                 className="h-11"
                 autoComplete="off"
+                data-testid="generate-report-name-input"
                 {...form.register("name")}
               />
               {form.formState.errors.name && (
@@ -100,7 +101,7 @@ export function GenerateReportSheet() {
                 control={form.control}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger id="format" className="h-11 w-full">
+                    <SelectTrigger id="format" className="h-11 w-full" data-testid="generate-report-format-select">
                       <SelectValue placeholder="Select format" />
                     </SelectTrigger>
                     <SelectContent position="popper">
@@ -125,7 +126,7 @@ export function GenerateReportSheet() {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button type="submit" disabled={form.formState.isSubmitting} data-testid="generate-report-submit">
                 {form.formState.isSubmitting ? "Generating..." : "Generate"}
               </Button>
             </SheetFooter>

@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { DashboardStatCardProps } from "@/types/app.types";
 import { ArrowUpRightIcon } from "lucide-react";
 
-export function DashboardStatCard({ title, value, description, icon: Icon, trend }: DashboardStatCardProps) {
+export function DashboardStatCard({ title, value, description, icon: Icon, trend, dataTestId }: DashboardStatCardProps & { dataTestId?: string }) {
     return (
-        <Card>
+        <Card data-testid={dataTestId}>
             <CardHeader className="flex flex-row items-start justify-between space-y-0">
                 <div className="flex h-10 w-10 items-center justify-center rounded-md border">
                     <Icon className="size-5" />
