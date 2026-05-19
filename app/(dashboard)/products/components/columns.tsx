@@ -132,7 +132,7 @@ export function getProductColumns(categories: Category[]): ColumnDef<Product>[] 
         <div className="flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" data-testid="product-actions-button">
                 <MoreHorizontalIcon className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -150,7 +150,7 @@ export function getProductColumns(categories: Category[]): ColumnDef<Product>[] 
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
-                <Link href={`/products/${product.id}/edit`}>
+                <Link href={`/products/${product.id}/edit`} data-testid="product-edit-link">
                   Edit product
                 </Link>
               </DropdownMenuItem>

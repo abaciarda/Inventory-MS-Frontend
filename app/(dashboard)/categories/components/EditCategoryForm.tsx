@@ -53,6 +53,7 @@ export function EditCategoryForm({ category }: { category: Category }) {
             placeholder="Electronics"
             autoComplete="off"
             className="h-11 bg-muted/40"
+            data-testid="edit-category-name-input"
             {...form.register("name")}
           />
 
@@ -91,7 +92,7 @@ export function EditCategoryForm({ category }: { category: Category }) {
           Cancel
         </Button>
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button type="submit" disabled={form.formState.isSubmitting} data-testid="edit-category-submit">
           {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
       </div>

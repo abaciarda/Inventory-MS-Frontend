@@ -5,7 +5,9 @@ import {
     WalletIcon,
 } from "lucide-react"
 import { Metadata } from "next"
+import Link from "next/link"
 
+import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -48,11 +50,19 @@ export default async function ProductsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-        <p className="text-muted-foreground">
-          View products, SKUs, categories, and pricing information.
-        </p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+          <p className="text-muted-foreground">
+            View products, SKUs, categories, and pricing information.
+          </p>
+        </div>
+        <Button asChild data-testid="add-product-button">
+          <Link href="/products/new">
+            <BoxesIcon className="mr-2 size-4" />
+            Add Product
+          </Link>
+        </Button>
       </div>
 
       <div className="grid grid-cols-12 gap-4">

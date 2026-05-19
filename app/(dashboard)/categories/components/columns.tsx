@@ -70,7 +70,7 @@ export const columns: ColumnDef<Category>[] = [
         <div className="flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" data-testid="category-actions-button">
                 <MoreHorizontalIcon className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Category>[] = [
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
-                <Link href={`/categories/${category.id}/edit`}>
+                <Link href={`/categories/${category.id}/edit`} data-testid="category-edit-link">
                   Edit category
                 </Link>
               </DropdownMenuItem>

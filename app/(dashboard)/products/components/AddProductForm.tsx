@@ -62,6 +62,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
             placeholder="Wireless Mouse"
             autoComplete="off"
             className="h-11 bg-muted/40"
+            data-testid="create-product-name-input"
             {...form.register("name")}
           />
 
@@ -78,6 +79,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
             placeholder="SKU-001"
             autoComplete="off"
             className="h-11 bg-muted/40 uppercase"
+            data-testid="create-product-sku-input"
             {...form.register("sku")}
           />
 
@@ -96,6 +98,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
                 <SelectTrigger
                   id="categoryId"
                   className="h-11! w-full bg-muted/40"
+                  data-testid="create-product-category-select"
                 >
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -131,6 +134,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
             min="0"
             placeholder="25.00"
             className="h-11 bg-muted/40"
+            data-testid="create-product-cost-input"
             {...form.register("costPrice")}
           />
 
@@ -148,6 +152,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
             min="0"
             placeholder="39.99"
             className="h-11 bg-muted/40"
+            data-testid="create-product-sales-input"
             {...form.register("salesPrice")}
           />
 
@@ -167,6 +172,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
             min="0"
             placeholder="50"
             className="h-11 bg-muted/40"
+            data-testid="create-product-stock-input"
             {...form.register("initialStockQuantity")}
           />
 
@@ -188,7 +194,7 @@ export function AddProductForm({ categories }: { categories: Category[] }) {
           Cancel
         </Button>
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button type="submit" disabled={form.formState.isSubmitting} data-testid="create-product-submit">
           {form.formState.isSubmitting ? "Creating..." : "Create Product"}
         </Button>
       </div>

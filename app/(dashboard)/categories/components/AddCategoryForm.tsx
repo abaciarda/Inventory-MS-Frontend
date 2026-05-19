@@ -51,6 +51,7 @@ export function AddCategoryForm() {
             placeholder="Electronics"
             autoComplete="off"
             className="h-11 bg-muted/40"
+            data-testid="create-category-name-input"
             {...form.register("name")}
           />
 
@@ -68,6 +69,7 @@ export function AddCategoryForm() {
             className={cn(
               "border-input bg-muted/40 placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 flex w-full rounded-md border px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
             )}
+            data-testid="create-category-description-input"
             {...form.register("description")}
           />
 
@@ -89,7 +91,7 @@ export function AddCategoryForm() {
           Cancel
         </Button>
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button type="submit" disabled={form.formState.isSubmitting} data-testid="create-category-submit">
           {form.formState.isSubmitting ? "Creating..." : "Create Category"}
         </Button>
       </div>

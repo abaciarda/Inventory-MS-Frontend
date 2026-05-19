@@ -68,6 +68,7 @@ export function EditProductForm({
             placeholder="Wireless Mouse"
             autoComplete="off"
             className="h-11 bg-muted/40"
+            data-testid="edit-product-name-input"
             {...form.register("name")}
           />
 
@@ -84,6 +85,7 @@ export function EditProductForm({
             placeholder="SKU-001"
             autoComplete="off"
             className="h-11 bg-muted/40 uppercase"
+            data-testid="edit-product-sku-input"
             {...form.register("sku")}
           />
 
@@ -102,6 +104,7 @@ export function EditProductForm({
                 <SelectTrigger
                   id="categoryId"
                   className="h-11! w-full bg-muted/40"
+                  data-testid="edit-product-category-select"
                 >
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -131,6 +134,7 @@ export function EditProductForm({
             min="0"
             placeholder="25.00"
             className="h-11 bg-muted/40"
+            data-testid="edit-product-cost-input"
             {...form.register("costPrice")}
           />
 
@@ -148,6 +152,7 @@ export function EditProductForm({
             min="0"
             placeholder="39.99"
             className="h-11 bg-muted/40"
+            data-testid="edit-product-sales-input"
             {...form.register("salesPrice")}
           />
 
@@ -167,7 +172,7 @@ export function EditProductForm({
           Cancel
         </Button>
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button type="submit" disabled={form.formState.isSubmitting} data-testid="edit-product-submit">
           {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
       </div>

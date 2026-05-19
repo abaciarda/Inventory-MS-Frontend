@@ -12,6 +12,6 @@ type ProductsTableProps = {
 
 export function ProductsTable({ products, categories }: ProductsTableProps) {
   return (
-    <DataTable columns={getProductColumns(categories)} data={products} />
+    <DataTable columns={getProductColumns(categories)} data={products} entityLabel="product" />
   )
 }
