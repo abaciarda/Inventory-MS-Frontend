@@ -1,6 +1,6 @@
 # Inventory Management System (IMS) — Next.js Frontend
 
-A modern, responsive dashboard interface designed for SME (Small and Medium-sized Enterprises) inventory management. This application communicates with a Spring Boot REST API for authentication and data operations.
+A modern, responsive dashboard interface designed for SME (Small and Medium-sized Enterprises) inventory management. This application communicates with the [Spring Boot REST API Backend](https://github.com/abaciarda/Inventory-MS-Backend) for authentication and data operations.
 
 ---
 
